@@ -5,7 +5,7 @@ package Huffman;
  */
 public class HuffmanNode implements Comparable<HuffmanNode> {
 
-    private char character;
+    private int symbol;
     private int frequency;
 
     private HuffmanNode left;
@@ -14,12 +14,12 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     /**
      * @brief Construct a leaf node
      *
-     * @param character :: Stored character
-     * @param frequency :: Character frequency
+     * @param symbol :: Stored symbol
+     * @param frequency :: Symbol frequency
      */
-    public HuffmanNode(char character, int frequency) {
+    public HuffmanNode(int symbol, int frequency) {
 
-        this.character = character;
+        this.symbol = symbol;
         this.frequency = frequency;
 
         this.left = null;
@@ -35,7 +35,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      */
     public HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right) {
 
-        this.character = '\0'; //Internal node
+        this.symbol = -1; //Internal node
         this.frequency = frequency;
 
         this.left = left;
@@ -52,12 +52,12 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     }
 
     /**
-     * @brief Get stored character
+     * @brief Get stored symbol
      *
-     * @return char :: Stored character
+     * @return int :: Stored symbol
      */
-    public char getCharacter() {
-        return character;
+    public int getSymbol() {
+        return symbol;
     }
 
     /**
@@ -125,7 +125,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     public String toString() {
 
         if (isLeaf()) {
-            return "Node[char=" + character + ", freq=" + frequency + "]";
+            return "Node[symbol=" + symbol + ", freq=" + frequency + "]";
         }
 
         return "Node[internal, freq=" + frequency + "]";

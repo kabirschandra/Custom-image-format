@@ -9,27 +9,27 @@ import java.util.Map;
 public class HuffmanCoding {
 
     /**
-     * @brief Count frequency of each character in a string
+     * @brief Count frequency of each symbol in an array
      *
-     * @param text :: Input text
+     * @param data :: Input data
      *
-     * @return Map<Character, Integer> :: Character frequency map
+     * @return Map<Integer, Integer> :: Symbol frequency map
      */
-    public static Map<Character, Integer> countFrequencies(String text) {
+    public static Map<Integer, Integer> countFrequencies(int[] data) {
 
-        if (text == null || text.isEmpty()) {
+        if (data == null || data.length == 0) {
             
             return new HashMap<>();
         }
 
-        Map<Character, Integer> frequencies = new HashMap<>();
+        Map<Integer, Integer> frequencies = new HashMap<>();
 
-        //Count each character 
-        for (int i = 0; i < text.length(); i++) {
+        //Count each symbol 
+        for (int i = 0; i < data.length; i++) {
 
-            char c = text.charAt(i);
+            int symbol = data[i];
 
-            frequencies.put(c, frequencies.getOrDefault(c, 0) + 1);
+            frequencies.put(symbol, frequencies.getOrDefault(symbol, 0) + 1);
         }
 
         return frequencies;
@@ -38,18 +38,18 @@ public class HuffmanCoding {
     /**
      * @brief Calculate compression ratio
      *
-     * @param original :: Original text
+     * @param original :: Original data
      * @param encoded :: Encoded binary string
      *
      * @return double :: Compression ratio
      */
-    public static double calculateCompressionRatio(String original, String encoded) {
+    public static double calculateCompressionRatio(int[] original, String encoded) {
 
-        if (original == null || original.isEmpty()) {
+        if (original == null || original.length == 0) {
             return 0.0;
         }
 
-        int originalBits = original.length() * 8; //ASCII uses 8 bits
+        int originalBits = original.length * 8; //One image symbol uses 8 bits
         int compressedBits = encoded.length();
 
         return (double) compressedBits / originalBits;
@@ -58,20 +58,20 @@ public class HuffmanCoding {
     /**
      * @brief Print compression statistics and Huffman codes
      *
-     * @param original :: Original text
+     * @param original :: Original data
      * @param encoded :: Encoded binary string
      * @param codes :: Huffman code map
      *
      * @return void :: None
      */
     public static void printStatistics(
-            String original,
+            int[] original,
             String encoded,
-            Map<Character, String> codes) {
+            Map<Integer, String> codes) {
 
         System.out.println("=== Huffman Compression Statistics ===");
-        System.out.println("Original text length: " + original.length() + " characters");
-        System.out.println("Original size: " + (original.length() * 8) + " bits");
+        System.out.println("Original data length: " + original.length + " symbols");
+        System.out.println("Original size: " + (original.length * 8) + " bits");
         System.out.println("Compressed size: " + encoded.length() + " bits");
 
         double ratio = calculateCompressionRatio(original, encoded);
@@ -82,26 +82,14 @@ public class HuffmanCoding {
 
         System.out.println("\nHuffman Codes:");
 
-        for (Map.Entry<Character, String> entry : codes.entrySet()) {
+        for (Map.Entry<Integer, String> entry : codes.entrySet()) {
 
-            char c = entry.getKey();
+            int symbol = entry.getKey();
             String code = entry.getValue();
 
-            if (c == '\n') {
-                System.out.println("  '\\n' : " + code);
-
-            } else if (c == ' ') {
-                System.out.println("  space: " + code);
-
-            } else {
-                System.out.println("  '" + c + "'   : " + code);
-            }
+            System.out.println("  " + symbol + " : " + code);
         }
     }
 }
-
-
-
-
 
 

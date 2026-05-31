@@ -10,14 +10,14 @@ import java.util.PriorityQueue;
 public class HuffmanTree {
 
     private HuffmanNode root;
-    private Map<Character, String> huffmanCodes;
+    private Map<Integer, String> huffmanCodes;
 
     /**
-     * @brief Construct Huffman tree from character frequencies
+     * @brief Construct Huffman tree from symbol frequencies
      *
-     * @param frequencies :: Character frequency map
+     * @param frequencies :: Symbol frequency map
      */
-    public HuffmanTree(Map<Character, Integer> frequencies) {
+    public HuffmanTree(Map<Integer, Integer> frequencies) {
 
         if (frequencies == null || frequencies.isEmpty()) {
             throw new IllegalArgumentException("Frequencies map cannot be null or empty");
@@ -34,29 +34,29 @@ public class HuffmanTree {
     /**
      * @brief Build Huffman tree using a priority queue
      *
-     * @param frequencies :: Character frequencies
+     * @param frequencies :: Symbol frequencies
      *
      * @return HuffmanNode :: Root node
      */
-    private HuffmanNode buildTree(Map<Character, Integer> frequencies) {
+    private HuffmanNode buildTree(Map<Integer, Integer> frequencies) {
 
         PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
 
         //Create leaf nodes
-        for (Map.Entry<Character, Integer> entry : frequencies.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : frequencies.entrySet()) {
 
-            char character = entry.getKey();
+            int symbol = entry.getKey();
             int frequency = entry.getValue();
 
             if (frequency > 0) {
 
-                HuffmanNode node = new HuffmanNode(character, frequency);
+                HuffmanNode node = new HuffmanNode(symbol, frequency);
 
                 priorityQueue.add(node);
             }
         }
 
-        //Special case: one unique character
+        //Special case: one unique symbol
         if (priorityQueue.size() == 1) {
 
             HuffmanNode singleNode = priorityQueue.poll();
@@ -92,10 +92,10 @@ public class HuffmanTree {
             return;
         }
 
-        //Found a character
+        //Found a symbol
         if (node.isLeaf()) {
 
-            huffmanCodes.put(node.getCharacter(), code);
+            huffmanCodes.put(node.getSymbol(), code);
 
             return;
         }
@@ -105,15 +105,15 @@ public class HuffmanTree {
     }
 
     /**
-     * @brief Get Huffman code for a character
+     * @brief Get Huffman code for a symbol
      *
-     * @param character :: Input character
+     * @param symbol :: Input symbol
      *
      * @return String :: Binary code
      */
-    public String getCode(char character) {
+    public String getCode(int symbol) {
 
-        String code = huffmanCodes.get(character);
+        String code = huffmanCodes.get(symbol);
 
         if (code == null) {
             return "";
@@ -125,34 +125,34 @@ public class HuffmanTree {
     /**
      * @brief Return all Huffman codes
      *
-     * @return Map<Character, String> :: Huffman code map
+     * @return Map<Integer, String> :: Huffman code map
      */
-    public Map<Character, String> getAllCodes() {
+    public Map<Integer, String> getAllCodes() {
         return new HashMap<>(huffmanCodes);
     }
 
     /**
-     * @brief Encode text into binary
+     * @brief Encode data into binary
      *
-     * @param text :: Input text
+     * @param data :: Input data
      *
      * @return String :: Encoded binary string
      */
-    public String encode(String text) {
+    public String encode(int[] data) {
 
-        if (text == null || text.isEmpty()) {
+        if (data == null || data.length == 0) {
             return "";
         }
 
         StringBuilder encoded = new StringBuilder();
 
-        for (int i = 0; i < text.length(); i++) {
+        for (int i = 0; i < data.length; i++) {
 
-            char c = text.charAt(i);
-            String code = getCode(c);
+            int symbol = data[i];
+            String code = getCode(symbol);
 
             if (code.isEmpty()) {
-                throw new IllegalArgumentException("Character '" + c + "' not found in Huffman tree");
+                throw new IllegalArgumentException("Symbol '" + symbol + "' not found in Huffman tree");
             }
 
             encoded.append(code);
@@ -162,25 +162,26 @@ public class HuffmanTree {
     }
 
     /**
-     * @brief Decode binary back into text
+     * @brief Decode binary back into data
      *
-     * @param encodedText :: Encoded binary string
+     * @param encodedData :: Encoded binary string
      *
-     * @return String :: Decoded text
+     * @return int[] :: Decoded data
      */
-    public String decode(String encodedText) {
+    public int[] decode(String encodedData) {
 
-        if (encodedText == null || encodedText.isEmpty()) {
-            return "";
+        if (encodedData == null || encodedData.isEmpty()) {
+            return new int[0];
         }
 
-        StringBuilder decoded = new StringBuilder();
+        int[] temp = new int[encodedData.length()];
+        int count = 0;
 
         HuffmanNode current = root;
 
-        for (int i = 0; i < encodedText.length(); i++) {
+        for (int i = 0; i < encodedData.length(); i++) {
 
-            char bit = encodedText.charAt(i);
+            char bit = encodedData.charAt(i);
             if (bit == '0') {
                 current = current.getLeft();
 
@@ -191,16 +192,23 @@ public class HuffmanTree {
                 throw new IllegalArgumentException("Invalid bit: " + bit);
             }
 
-            //Full character
+            //Full symbol
             if (current.isLeaf()) {
 
-                decoded.append(current.getCharacter());
+                temp[count] = current.getSymbol();
+                count++;
 
                 current = root;
             }
         }
 
-        return decoded.toString();
+        int[] decoded = new int[count];
+
+        for (int i = 0; i < count; i++) {
+            decoded[i] = temp[i];
+        }
+
+        return decoded;
     }
 
     /**
