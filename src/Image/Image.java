@@ -197,15 +197,13 @@ public class Image {
 
         try {
 
-            Map<Integer, Integer> frequencies =
-                    HuffmanCoding.countFrequencies(image.pixels);
+            Map<Integer, Integer> frequencies = HuffmanCoding.countFrequencies(image.pixels);
 
             HuffmanTree tree = new HuffmanTree(frequencies);
 
             String encoded = tree.encode(image.pixels);
 
-            DataOutputStream out =
-                    new DataOutputStream(new FileOutputStream(filename));
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(filename));
 
             out.writeBytes("IMAGE");
 
@@ -249,8 +247,7 @@ public class Image {
 
         try {
 
-            DataInputStream in =
-                    new DataInputStream(new FileInputStream(filename));
+            DataInputStream in = new DataInputStream(new FileInputStream(filename));
 
             byte[] magic = new byte[5];
             in.readFully(magic);

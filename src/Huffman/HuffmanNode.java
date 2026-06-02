@@ -7,6 +7,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
     private int symbol;
     private int frequency;
+    private int smallestSymbol;
 
     private HuffmanNode left;
     private HuffmanNode right;
@@ -21,6 +22,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
         this.symbol = symbol;
         this.frequency = frequency;
+        this.smallestSymbol = symbol;
 
         this.left = null;
         this.right = null;
@@ -40,6 +42,20 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
         this.left = left;
         this.right = right;
+
+        if (left == null && right == null) {
+            this.smallestSymbol = -1;
+
+        } else if (left == null) {
+            this.smallestSymbol = right.getSmallestSymbol();
+
+        } else if (right == null) {
+            this.smallestSymbol = left.getSmallestSymbol();
+
+        } else {
+            this.smallestSymbol =
+                    Math.min(left.getSmallestSymbol(), right.getSmallestSymbol());
+        }
     }
 
     /**
@@ -67,6 +83,15 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      */
     public int getFrequency() {
         return frequency;
+    }
+
+    /**
+     * @brief Get smallest symbol inside this branch
+     *
+     * @return int :: Smallest symbol
+     */
+    public int getSmallestSymbol() {
+        return smallestSymbol;
     }
 
     /**
@@ -110,7 +135,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     }
 
     /**
-     * @brief Compare nodes by frequency
+     * @brief Compare nodes by frequency, then symbol order
      *
      * @param other :: Other node
      *
@@ -118,7 +143,15 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      */
     @Override
     public int compareTo(HuffmanNode other) {
-        return Integer.compare(this.frequency, other.frequency);
+
+        int frequencyCompare =
+                Integer.compare(this.frequency, other.frequency);
+
+        if (frequencyCompare != 0) {
+            return frequencyCompare;
+        }
+
+        return Integer.compare(this.smallestSymbol, other.smallestSymbol);
     }
 
     @Override
