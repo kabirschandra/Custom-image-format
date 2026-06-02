@@ -27,6 +27,7 @@ public class TestImages {
             return;
         }
 
+
         File outputFolder = new File("out");
 
         if (!outputFolder.exists()) {
@@ -51,6 +52,10 @@ public class TestImages {
                 continue;
             }
 
+
+
+
+
             if (isRestoredBitmap(file)) {
                 continue;
             }
@@ -66,6 +71,7 @@ public class TestImages {
 
         System.out.println();
         System.out.println("=== Test Summary ===");
+
         System.out.println("Tests run: " + testsRun);
         System.out.println("Tests passed: " + testsPassed);
         System.out.println("Tests failed: " + (testsRun - testsPassed));
@@ -91,6 +97,7 @@ public class TestImages {
         ImageData original = BitmapImage.readBitmap(inputName);
 
         if (original == null) {
+
             System.out.println("  Failed: could not read original bitmap");
             return false;
         }
@@ -98,6 +105,7 @@ public class TestImages {
         boolean written = Image.write(original, compressedName);
 
         if (!written) {
+
             System.out.println("  Failed: could not write KC file");
             return false;
         }
@@ -112,6 +120,7 @@ public class TestImages {
         if (!imagesMatch(original, decoded)) {
             System.out.println("  Failed: decoded KC data does not match original");
             return false;
+
         }
 
         BitmapImage.writeBitmap(decoded, outputName);
@@ -127,6 +136,7 @@ public class TestImages {
             System.out.println("  Failed: restored bitmap does not match original");
             return false;
         }
+
 
         System.out.println("  Passed");
         return true;
@@ -175,6 +185,7 @@ public class TestImages {
 
         int dotIndex = filename.lastIndexOf(".");
 
+
         if (dotIndex == -1) {
             return filename;
         }
@@ -206,6 +217,7 @@ public class TestImages {
 
         for (int i = 0; i < first.pixels.length; i++) {
 
+            
             if (first.pixels[i] != second.pixels[i]) {
                 return false;
             }

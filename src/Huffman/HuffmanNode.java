@@ -36,6 +36,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @param right :: Right child node
      */
     public HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right) {
+        
 
         this.symbol = -1; //Internal node
         this.frequency = frequency;
@@ -48,6 +49,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
         } else if (left == null) {
             this.smallestSymbol = right.getSmallestSymbol();
+
 
         } else if (right == null) {
             this.smallestSymbol = left.getSmallestSymbol();
@@ -85,12 +87,14 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
         return frequency;
     }
 
+
     /**
      * @brief Get smallest symbol inside this branch
      *
      * @return int :: Smallest symbol
      */
     public int getSmallestSymbol() {
+
         return smallestSymbol;
     }
 
@@ -131,6 +135,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @return void :: None
      */
     public void setRight(HuffmanNode right) {
+
         this.right = right;
     }
 
@@ -151,6 +156,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
             return frequencyCompare;
         }
 
+
         return Integer.compare(this.smallestSymbol, other.smallestSymbol);
     }
 
@@ -158,6 +164,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     public String toString() {
 
         if (isLeaf()) {
+
             return "Node[symbol=" + symbol + ", freq=" + frequency + "]";
         }
 
